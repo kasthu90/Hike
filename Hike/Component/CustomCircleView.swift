@@ -10,24 +10,28 @@ import SwiftUI
 struct CustomCircleView: View {
     // once the circle appears only need to start animation, so setting it to false.
     
-    @State private var isAnimated: Bool = false
+    @State private var isAnimateGradient: Bool = false
     var body: some View {
-        Circle()
-            .fill(
-                LinearGradient(
-                    colors: [
-                        .customIndigoMedium,
-                        .customSalmonLight],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ))
-            .onAppear()
-        {
-            withAnimation() {
-                isAnimated.toggle()
+        ZStack {
+            Circle()
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            .customIndigoMedium,
+                            .customSalmonLight],
+                        startPoint: isAnimateGradient ?.topLeading: .bottomLeading,
+                        endPoint: isAnimateGradient ? .bottomTrailing : .topTrailing
+                    ))
+                .onAppear()
+            {
+                withAnimation(.linear(duration: 3.0).repeatForever(autoreverses:true)) {
+                    isAnimateGradient.toggle()
+                }
             }
-        }
-        .frame(width: 256, height: 256)
+            MotionAnimationView()
+        }.frame(width: 256, height: 256)
+           
+        
     }
 }
 
