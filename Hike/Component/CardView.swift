@@ -11,7 +11,7 @@ import SwiftUI
 struct CardView: View {
     @State private var randomNumber: Int = 1
     @State private var imageNumber: Int = 1
-    
+    @State private var isShowingSheet: Bool = false
     
     func randomImage()
     {
@@ -51,10 +51,20 @@ struct CardView: View {
                         Spacer()
                         Button{
                             print("the button was pressed")
+                            isShowingSheet.toggle()
                         }label: {
                             CustomButtonView()
                             
                         }
+                        .sheet(isPresented: $isShowingSheet) {
+                            SettingsView()
+                            // for better user experience added below code for drag indicator in settings view tab
+                                .presentationDragIndicator(.visible)
+                            
+                            //resize the settings sheet
+                                .presentationDetents([.medium, .large])
+                        }
+                        
                     }
                     
                     Text("Fun and enjoyable outdoor activity for families and friends")
